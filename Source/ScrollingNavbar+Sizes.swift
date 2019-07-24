@@ -44,22 +44,35 @@ extension ScrollingNavigationController {
     return 0
   }
   
-  func scrollView() -> UIScrollView? {
-    if let webView = self.scrollableView as? UIWebView {
+  func scrollView(from scrollableView: UIView?) -> UIScrollView? {
+    if let webView = scrollableView as? UIWebView {
       return webView.scrollView
-    } else if let wkWebView = self.scrollableView as? WKWebView {
+    } else if let wkWebView = scrollableView as? WKWebView {
       return wkWebView.scrollView
     } else {
       return scrollableView as? UIScrollView
     }
   }
   
-  var contentOffset: CGPoint {
-    return scrollView()?.contentOffset ?? CGPoint.zero
+//  var contentOffset: CGPoint {
+//    return scrollView()?.contentOffset ?? CGPoint.zero
+//  }
+//
+//  var contentSize: CGSize {
+//    guard let scrollView = scrollView() else {
+//      return CGSize.zero
+//    }
+//
+//    let verticalInset = scrollView.contentInset.top + scrollView.contentInset.bottom
+//    return CGSize(width: scrollView.contentSize.width, height: scrollView.contentSize.height + verticalInset)
+//  }
+  
+  func contentOffset(of scrollableView: UIView?) -> CGPoint {
+    return self.scrollView(from: scrollableView)?.contentOffset ?? CGPoint.zero
   }
   
-  var contentSize: CGSize {
-    guard let scrollView = scrollView() else {
+  func contentSize(of scrollableView: UIView?) -> CGSize {
+    guard let scrollView = scrollView(from: scrollableView) else {
       return CGSize.zero
     }
     

@@ -35,7 +35,7 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, UI
     super.viewWillDisappear(animated)
     
     if let navigationController = self.navigationController as? ScrollingNavigationController {
-      navigationController.stopFollowingScrollView()
+      navigationController.stopFollowingScrollView(scrollView: self.collectionView)
     }
   }
 
