@@ -196,17 +196,17 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
    - parameter followers: An array of `NavigationBarFollower`s that will follow the navbar. The wrapper holds the direction that the view will follow
    */
   open func followScrollView(_ scrollableView: UIView, delay: Double = 0, scrollSpeedFactor: Double = 1, collapseDirection: NavigationBarCollapseDirection = .scrollDown, additionalOffset: CGFloat = 0, followers: [NavigationBarFollower] = []) {
-    guard self.scrollableViews.isEmpty else {
-      // Restore previous state. UIKit restores the navbar to its full height on view changes (e.g. during a modal presentation), so we need to restore the status once UIKit is done
-      switch previousState {
-      case .collapsed:
-        hideNavbar(animated: false)
-      case .expanded:
-        showNavbar(animated: false)
-      default: break
-      }
-      return
-    }
+//    guard self.scrollableViews.isEmpty else {
+//      // Restore previous state. UIKit restores the navbar to its full height on view changes (e.g. during a modal presentation), so we need to restore the status once UIKit is done
+//      switch previousState {
+//      case .collapsed:
+//        hideNavbar(animated: false)
+//      case .expanded:
+//        showNavbar(animated: false)
+//      default: break
+//      }
+//      return
+//    }
     self.scrollableViews.insert(scrollableView)
 
     let gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ScrollingNavigationController.handlePan(_:)))

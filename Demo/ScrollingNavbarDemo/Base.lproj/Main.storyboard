@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8DR-mA-2ri">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="8DR-mA-2ri">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -259,6 +259,32 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="FKK-y1-OZj" kind="show" id="H5H-64-o4V"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="100" id="TQZ-dR-1VJ">
+                                        <rect key="frame" x="0.0" y="600" width="375" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TQZ-dR-1VJ" id="t3u-lN-9Co">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MultiScrollView" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZz-y4-B4D">
+                                                    <rect key="frame" x="16" y="11" width="343" height="78"/>
+                                                    <color key="backgroundColor" red="0.98000001910000001" green="0.98000001910000001" blue="0.98000001910000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="NZz-y4-B4D" firstAttribute="leading" secondItem="t3u-lN-9Co" secondAttribute="leadingMargin" id="2Xf-Oh-9xf"/>
+                                                <constraint firstItem="NZz-y4-B4D" firstAttribute="bottom" secondItem="t3u-lN-9Co" secondAttribute="bottomMargin" id="3XL-g5-Kec"/>
+                                                <constraint firstItem="NZz-y4-B4D" firstAttribute="trailing" secondItem="t3u-lN-9Co" secondAttribute="trailingMargin" id="7jR-So-Y5y"/>
+                                                <constraint firstItem="NZz-y4-B4D" firstAttribute="top" secondItem="t3u-lN-9Co" secondAttribute="topMargin" id="QrX-lW-yho"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="hqG-Uy-Nvd" kind="show" id="F8M-Ne-C2K"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -609,6 +635,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQV-pH-Nu4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2001" y="1895"/>
+        </scene>
+        <!--Multi Scroll View Controller-->
+        <scene sceneID="f0Q-PM-O8L">
+            <objects>
+                <viewController id="hqG-Uy-Nvd" customClass="MultiScrollViewController" customModule="ScrollingNavbarDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dXN-UW-agH"/>
+                        <viewControllerLayoutGuide type="bottom" id="AaM-w3-JGU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ItV-8o-psT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bce-d4-5Iy">
+                                <rect key="frame" x="0.0" y="0.0" width="187.5" height="667"/>
+                            </scrollView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ll6-0l-VFO">
+                                <rect key="frame" x="187.5" y="0.0" width="187.5" height="667"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="Bce-d4-5Iy" secondAttribute="trailing" id="0I5-S1-nXu"/>
+                            <constraint firstAttribute="trailing" secondItem="Ll6-0l-VFO" secondAttribute="trailing" id="LUO-O9-pPQ"/>
+                            <constraint firstItem="Bce-d4-5Iy" firstAttribute="bottom" secondItem="AaM-w3-JGU" secondAttribute="top" id="gwT-2S-iTZ"/>
+                            <constraint firstItem="Bce-d4-5Iy" firstAttribute="top" secondItem="ItV-8o-psT" secondAttribute="top" id="scY-gL-hiU"/>
+                            <constraint firstItem="Ll6-0l-VFO" firstAttribute="leading" secondItem="ItV-8o-psT" secondAttribute="centerX" id="w2B-ol-rf6"/>
+                            <constraint firstItem="Bce-d4-5Iy" firstAttribute="top" secondItem="Ll6-0l-VFO" secondAttribute="top" id="wcK-Mi-rsi"/>
+                            <constraint firstItem="Bce-d4-5Iy" firstAttribute="leading" secondItem="ItV-8o-psT" secondAttribute="leading" id="xax-Kd-CSp"/>
+                            <constraint firstItem="Bce-d4-5Iy" firstAttribute="bottom" secondItem="Ll6-0l-VFO" secondAttribute="bottom" id="znb-4o-GTT"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="f6E-nW-uYQ">
+                        <nil key="title"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="scrollView" destination="Bce-d4-5Iy" id="bBN-Ne-YYz"/>
+                        <outlet property="scrollView2" destination="Ll6-0l-VFO" id="97D-Yh-ufb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iab-dY-RFO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2765.5999999999999" y="-314.39280359820094"/>
         </scene>
     </scenes>
 </document>
