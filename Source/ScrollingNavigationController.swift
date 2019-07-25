@@ -125,7 +125,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   /**
    An array of `NavigationBarFollower`s that will follow the navbar
    */
-  open var followers: [NavigationBarFollower] = []
+  open var followers = Dictionary<UIView,[NavigationBarFollower]>()
 
   /**
    Determines if the top content inset should be updated with the navbar's delta movement. This should be enabled when dealing with table views with floating headers.
@@ -233,7 +233,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     if let tab = followers.map({ $0.view }).first(where: { $0 is UITabBar }) as? UITabBar {
       self.sourceTabBar = TabBarMock(origin: CGPoint(x: tab.frame.origin.x, y: CGFloat(round(tab.frame.origin.y))), translucent: tab.isTranslucent)
     }
-    self.followers = followers
+    self.followers[scrollableView] = followers
     self.scrollSpeedFactor = CGFloat(scrollSpeedFactor)
     self.collapseDirectionFactor = CGFloat(collapseDirection.rawValue)
   }
@@ -501,7 +501,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     updateSizing(scrollDelta)
     updateNavbarAlpha()
     restoreContentOffset(of: scrollableView, delta: scrollDelta)
-    updateFollowers()
+    updateFollowers(of: scrollableView)
     updateContentInset(of: scrollableView, delta: scrollDelta)
     
     let newState = state
@@ -523,8 +523,11 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     }
   }
 
-  private func updateFollowers() {
-    followers.forEach {
+  private func updateFollowers(of scrollableView: UIView?) {
+    guard let scrollableView = scrollableView else {
+        return
+    }
+    followers[scrollableView]?.forEach {
       guard let tabBar = $0.view as? UITabBar else {
         let height = $0.view?.frame.height ?? 0
         var safeArea: CGFloat = 0
@@ -609,7 +612,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     
     UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions.beginFromCurrentState, animations: {
       self.updateSizing(delta)
-      self.updateFollowers()
+      self.updateFollowers(of: scrollableView)
       self.updateNavbarAlpha()
       self.updateContentInset(of: scrollableView, delta: delta)
     }, completion: { _ in
