@@ -84,6 +84,7 @@ class MultiScrollViewController: ScrollingNavigationViewController, ScrollingNav
       }
       navigationController.scrollingNavbarDelegate = self
       navigationController.expandOnActive = false
+      navigationController.shouldUpdateContentInset = false
     }
   }
   

@@ -166,8 +166,8 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   open fileprivate(set) var gestureRecognizers = Dictionary<UIView,UIPanGestureRecognizer>()
   fileprivate var sourceTabBar: TabBarMock?
   fileprivate var previousOrientation: UIDeviceOrientation = UIDevice.current.orientation
-  var delayDistance: CGFloat = 0
-  var maxDelay: CGFloat = 0
+  var delayDistances = Dictionary<UIView,CGFloat>()
+  var maxDelays = Dictionary<UIView,CGFloat>()
   var scrollableViews = Set<UIView>()
   var lastContentOffset = CGFloat(0.0)
   var scrollSpeedFactor: CGFloat = 1
@@ -224,8 +224,8 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
         NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.windowDidBecomeVisible(_:)), name: UIWindow.didBecomeVisibleNotification, object: nil)
     }
 
-    maxDelay = CGFloat(delay)
-    delayDistance = CGFloat(delay)
+    maxDelays[scrollableView] = CGFloat(delay)
+    delayDistances[scrollableView] = CGFloat(delay)
     scrollingEnabled = true
     self.additionalOffset = additionalOffset
 
@@ -442,22 +442,26 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   private func scroll(_ scrollableView: UIView?, delta: CGFloat, ignoreDelay: Bool = false) {
     var scrollDelta = delta
     let frame = navigationBar.frame
+    
+    guard let scrollableView = scrollableView else {
+        return
+    }
 
     // View scrolling up, hide the navbar
     if scrollDelta > 0 {
       // Update the delay
       if !ignoreDelay {
-        delayDistance -= scrollDelta
+        delayDistances[scrollableView] = scrollDelta - (delayDistances[scrollableView] ?? 0)
 
         // Skip if the delay is not over yet
-        if delayDistance > 0 {
+        if delayDistances[scrollableView] ?? 0 > 0 {
           return
         }
       }
 
       // No need to scroll if the content fits
       if !shouldScrollWhenContentFits && state != .collapsed &&
-        (scrollableView?.frame.size.height)! >= contentSize(of: scrollableView).height {
+        scrollableView.frame.size.height >= contentSize(of: scrollableView).height {
         return
       }
 
@@ -468,17 +472,17 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
       // Detect when the bar is completely collapsed
       if frame.origin.y <= -navbarFullHeight {
-        delayDistance = maxDelay
+        delayDistances[scrollableView] = maxDelays[scrollableView]
       }
     }
 
     if scrollDelta < 0 {
       // Update the delay
       if !ignoreDelay {
-        delayDistance += scrollDelta
+        delayDistances[scrollableView] = scrollDelta + (delayDistances[scrollableView] ?? 0)
 
         // Skip if the delay is not over yet
-        if delayDistance > 0 && maxDelay < contentOffset(of: scrollableView).y {
+        if delayDistances[scrollableView] ?? 0 > 0 && maxDelays[scrollableView] ?? 0 < contentOffset(of: scrollableView).y {
           return
         }
       }
@@ -490,7 +494,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
       // Detect when the bar is completely expanded
       if frame.origin.y >= statusBarHeight {
-        delayDistance = maxDelay
+        delayDistances[scrollableView] = maxDelays[scrollableView]
       }
     }
     
@@ -598,7 +602,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       scrollingNavbarDelegate?.scrollingNavigationController?(self, willChangeState: state)
     }
 
-    delayDistance = maxDelay
+    guard let scrollableView = scrollableView else {
+        return
+    }
+    delayDistances[scrollableView] = maxDelays[scrollableView]
     
     UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions.beginFromCurrentState, animations: {
       self.updateSizing(delta)
@@ -694,7 +701,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
     guard let gestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return true }
     let velocity = gestureRecognizer.velocity(in: gestureRecognizer.view)
-    return abs(velocity.y) > abs(velocity.x)
+    return abs(velocity.y) > abs(velocity.x) && scrollingEnabled
   }
 
   /**
