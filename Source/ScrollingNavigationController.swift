@@ -321,8 +321,11 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     }
     
     if let removedScrollableView = scrollableViews.remove(scrollView),
-       let gesture = gestureRecognizers.removeValue(forKey: removedScrollableView) {
+      let gesture = gestureRecognizers.removeValue(forKey: removedScrollableView) {
       removedScrollableView.removeGestureRecognizer(gesture)
+      delayDistances.removeValue(forKey: removedScrollableView)
+      maxDelays.removeValue(forKey: removedScrollableView)
+      followers.removeValue(forKey: removedScrollableView)
     }
     
     if scrollableViews.isEmpty {
