@@ -44,8 +44,8 @@ extension ScrollingNavigationController {
     return 0
   }
   
-  func scrollView() -> UIScrollView? {
-    if let wkWebView = self.scrollableView as? WKWebView {
+  func scrollView(from scrollableView: UIView?) -> UIScrollView? {
+    if let wkWebView = scrollableView as? WKWebView {
       return wkWebView.scrollView
     } else {
       return scrollableView as? UIScrollView
