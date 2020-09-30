@@ -3,10 +3,9 @@
 </p>
 
 [![CocoaPods](https://cocoapod-badges.herokuapp.com/v/AMScrollingNavbar/badge.svg)](http://www.cocoapods.org/?q=amscrollingnavbar)
-[![Build Status](https://travis-ci.org/andreamazz/AMScrollingNavbar.svg)](https://travis-ci.org/andreamazz/AMScrollingNavbar)
-[![codecov.io](https://codecov.io/github/andreamazz/AMScrollingNavbar/coverage.svg?branch=master)](https://codecov.io/github/andreamazz/AMScrollingNavbar?branch=master)
+![Build status](https://github.com/andreamazz/AMScrollingNavbar/workflows/Test%20suite/badge.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-![Swift 4](https://img.shields.io/badge/swift-4.2-orange.svg)
+![Swift 5](https://img.shields.io/badge/swift-5-orange.svg)
 [![Join the chat at https://gitter.im/andreamazz/AMScrollingNavbar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/andreamazz/AMScrollingNavbar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=46FNZD4PDVNRU)
 
@@ -14,7 +13,7 @@ A custom UINavigationController that enables the scrolling of the navigation bar
 scrolling of an observed content view  
 
 <p align="center">
-  <a href='https://appetize.io/app/31qahv9v4477ja36k8dn93wr8m' alt='Live demo'>
+  <a href='https://appetize.io/app/0u5wbe5vfputft397xktrk1hb8?device=iphonexs&scale=75&orientation=portrait&osVersion=12.4' alt='Live demo'>
     <img width="150" height="75" src="assets/demo-button.png"/>
   </a>
 </p>
@@ -22,10 +21,10 @@ scrolling of an observed content view
 ### Versioning notes
 
 - Version `2.x` is written as a subclass of `UINavigationController`, in Swift.  
-- Version `2.0.0` introduce Swift 2.0 syntax.
-- Version `3.0.0` introduce Swift 3.0 syntax.
-- Version `4.0.0` introduce Swift 4.0 syntax.
-- Version `5.1.0` introduce Swift 4.2 syntax.
+- Version `2.0.0` introduced Swift 2.0 syntax.
+- Version `3.0.0` introduced Swift 3.0 syntax.
+- Version `4.0.0` introduced Swift 4.0 syntax.
+- Version `5.1.0` introduced Swift 4.2 syntax.
 
 If you are looking for the category implementation in Objective-C, make sure to checkout version `1.x` and prior, although the `2.x` is recomended.
 
@@ -159,7 +158,7 @@ When the user taps the status bar, by default a scrollable view scrolls to the t
 ```swift
 func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
     if let navigationController = navigationController as? ScrollingNavigationController {
-        navigationController.showNavbar(animated: true)
+        navigationController.showNavbar(animated: true, scrollToTop: true)
     }
     return true
 }
@@ -170,6 +169,16 @@ You can control the speed of the scrolling using the `scrollSpeedFactor` optiona
 
 ```swift
 controller.followScrollView(view, delay: 0, scrollSpeedFactor: 2)
+```
+
+Check out the sample project for more details.
+
+## Changing UINavigationBar.tintColor
+AMScrollingNavBar maintains its own copy of the UINavigationBar's `tintColor` property. You need to notify the AMScrollingNavBar of a tint change by calling `navBarTintUpdated()`:
+
+```swift
+navigationBar.tintColor = UIColor.red
+controller.navBarTintUpdated()
 ```
 
 Check out the sample project for more details.
@@ -185,7 +194,7 @@ Want to support the development of [these free libraries](https://cocoapods.org/
 # MIT License
     The MIT License (MIT)
 
-    Copyright (c) 2018 Andrea Mazzini
+    Copyright (c) 2014-2019 Andrea Mazzini
 
     Permission is hereby granted, free of charge, to any person obtaining a copy of
     this software and associated documentation files (the "Software"), to deal in

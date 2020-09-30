@@ -44,10 +44,8 @@ extension ScrollingNavigationController {
     return 0
   }
   
-  func scrollView(from scrollableView: UIView?) -> UIScrollView? {
-    if let webView = scrollableView as? UIWebView {
-      return webView.scrollView
-    } else if let wkWebView = scrollableView as? WKWebView {
+  func scrollView() -> UIScrollView? {
+    if let wkWebView = self.scrollableView as? WKWebView {
       return wkWebView.scrollView
     } else {
       return scrollableView as? UIScrollView
@@ -82,5 +80,9 @@ extension ScrollingNavigationController {
   
   var navbarFullHeight: CGFloat {
     return navbarHeight - statusBarHeight + additionalOffset
+  }
+  
+  var followersHeight: CGFloat {
+      return self.followers.filter { $0.direction == .scrollUp }.compactMap { $0.view?.frame.height }.reduce(0, +)
   }
 }
