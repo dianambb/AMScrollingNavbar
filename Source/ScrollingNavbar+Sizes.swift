@@ -77,12 +77,16 @@ extension ScrollingNavigationController {
     let verticalInset = scrollView.contentInset.top + scrollView.contentInset.bottom
     return CGSize(width: scrollView.contentSize.width, height: scrollView.contentSize.height + verticalInset)
   }
+
+  func followersHeight(of scrollableView: UIView?) -> CGFloat {
+      guard let scrollableView = scrollableView else {
+        return CGFloat.zero
+      }
+
+      return self.followers[scrollableView]?.filter { $0.direction == .scrollUp }.compactMap { $0.view?.frame.height }.reduce(0, +) ?? CGFloat.zero
+  }
   
   var navbarFullHeight: CGFloat {
     return navbarHeight - statusBarHeight + additionalOffset
-  }
-  
-  var followersHeight: CGFloat {
-      return self.followers.filter { $0.direction == .scrollUp }.compactMap { $0.view?.frame.height }.reduce(0, +)
   }
 }

@@ -309,11 +309,11 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
      let completion = {
         if scrollToTop {
-          let followersFinalHeight = self.followersHeight + self.additionalScrollToTopOffset
+          let followersFinalHeight = self.(of: scrollableView) + self.additionalScrollToTopOffset
           if self.isTopViewControllerExtendedUnderNavigationBar {
-            self.scrollView()?.setContentOffset(CGPoint(x: 0, y: -self.fullNavbarHeight - followersFinalHeight), animated: true)
+            self.scrollView(from: scrollableView)?.setContentOffset(CGPoint(x: 0, y: -self.fullNavbarHeight - followersFinalHeight), animated: true)
           } else {
-            self.scrollView()?.setContentOffset(CGPoint(x: 0, y: -followersFinalHeight), animated: true)
+            self.scrollView(from: scrollableView)?.setContentOffset(CGPoint(x: 0, y: -followersFinalHeight), animated: true)
           }
         }
         showNavCompletion?()
@@ -726,7 +726,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       .forEach { setAlphaOfSubviews(view: $0, alpha: alpha) }
     
     //Update followers alpha
-    followers.filter { $0.changeAlphaWhileCollapsing }.forEach { $0.view?.alpha = alpha }
+    followers[view]?.filter { $0.changeAlphaWhileCollapsing }.forEach { $0.view?.alpha = alpha }
     
     // Hide the left items
     navigationItem.leftBarButtonItem?.customView?.alpha = alpha
