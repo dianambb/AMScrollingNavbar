@@ -328,12 +328,15 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
           self.scrollView(from: scrollableView)?.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y - self.navbarHeight)
         }
       }
+      
       if animated {
         UIView.animate(withDuration: duration, animations: animations) { _ in
           gestureRecognizer.isEnabled = true
+          completion()
         }
       } else {
         animations()
+        completion()
         gestureRecognizer.isEnabled = true
       }
     }
