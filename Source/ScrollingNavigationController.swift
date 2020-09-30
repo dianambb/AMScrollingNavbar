@@ -309,7 +309,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
      let completion = {
         if scrollToTop {
-          let followersFinalHeight = self.(of: scrollableView) + self.additionalScrollToTopOffset
+          let followersFinalHeight = self.followersHeight(of: scrollableView) + self.additionalScrollToTopOffset
           if self.isTopViewControllerExtendedUnderNavigationBar {
             self.scrollView(from: scrollableView)?.setContentOffset(CGPoint(x: 0, y: -self.fullNavbarHeight - followersFinalHeight), animated: true)
           } else {
