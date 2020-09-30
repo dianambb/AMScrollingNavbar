@@ -271,7 +271,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       let animations = {
         self.scroll(scrollableView, delta: self.fullNavbarHeight, ignoreDelay: true)
         visibleViewController.view.setNeedsLayout()
-        if !self.isTopViewControllerExtendsUnderNavigationBar {
+        if !self.isTopViewControllerExtendedUnderNavigationBar {
           let currentOffset = self.contentOffset(of: scrollableView)
           self.scrollView(from: scrollableView)?.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y + self.navbarHeight)
         }
@@ -323,7 +323,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
         self.lastContentOffset = 0
         self.scroll(scrollableView, delta: -self.fullNavbarHeight, ignoreDelay: true)
         visibleViewController.view.setNeedsLayout()
-        if !self.isTopViewControllerExtendsUnderNavigationBar {
+        if !self.isTopViewControllerExtendedUnderNavigationBar {
           let currentOffset = self.contentOffset(of: scrollableView)
           self.scrollView(from: scrollableView)?.contentOffset = CGPoint(x: currentOffset.x, y: currentOffset.y - self.navbarHeight)
         }
@@ -471,7 +471,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   private func shouldScroll(_ scrollableView: UIView?, withDelta delta: CGFloat) -> Bool {
     let scrollDelta = delta
     // Do not hide too early
-    if let scrollableView = scrollableView, contentOffset(of: scrollableView).y < ((isTopViewControllerExtendsUnderNavigationBar ? -fullNavbarHeight : 0) + scrollDelta) {
+    if let scrollableView = scrollableView, contentOffset(of: scrollableView).y < ((isTopViewControllerExtendedUnderNavigationBar ? -fullNavbarHeight : 0) + scrollDelta) {
       return false
     }
     // Check for rubberbanding
@@ -624,7 +624,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   }
 
   private func restoreContentOffset(of scrollableView: UIView?, delta: CGFloat) {
-    if isTopViewControllerExtendsUnderNavigationBar || delta == 0 {
+    if isTopViewControllerExtendedUnderNavigationBar || delta == 0 {
       return
     }
     
